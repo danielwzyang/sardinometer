@@ -19,6 +19,6 @@ void loop() {
   barometer.performReading();
   float pressure = barometer.pressure; // unit is hPa
 
-  Serial.printf("pressure = %.2f hPa", pressure);
+  Serial.printf("pressure = %.2f hPa\n", pressure);
   delay(1000);
 }
