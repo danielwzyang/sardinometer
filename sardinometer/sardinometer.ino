@@ -33,8 +33,10 @@ void setup() {
 
 void loop() {
   barometer.performReading();
-  float pressure = barometer.pressure; // unit is hPa
-
-  Serial.printf("pressure = %.2f hPa\n", pressure);
+  //substitue pressure reading with altitude since barometer already calculates it internally.
+  //float pressure = barometer.pressure; // unit is hPa
+  float altitude = barometer.altitude;
+  Serial.printf("altitude = %.f meters\n", altitude);
+  //Serial.printf("pressure = %.2f hPa\n", pressure);
   delay(1000);
 }
