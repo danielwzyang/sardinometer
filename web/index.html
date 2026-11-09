@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sardinometer</title>
+    
+    <style>
+        :root {
+            --bg-color: #99b8ff;     
+            --elevator-color: #cad4ed;
+        }
+
+        body {
+            background-color: var(--bg-color);    
+            padding: 10px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "Arial", system-ui;
+        }
+
+        .elevator {
+            width: 350px; 
+            height: 500px;
+            background-color: var(--elevator-color);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>sardinometer</h1>
+        <div class="elevator">
+            <p class="floor"></p>
+            <p class="congestion"></p>
+            <p class="direction"></p>
+        </div>
+    </main>
+
+    <script>
+        function str_direction(d) {
+            switch (d) {
+                case 0:
+                    return "still"
+                case 1:
+                    return "up"
+                case -1:
+                    return "down"
+                default:
+                    return "error"
+            }
+        }
+
+        function render_elevator(data) {
+            const [floor, congestion, direction] = document.querySelector(".elevator").children
+
+            floor.textContent = data.floor
+            congestion.textContent = data.congestion
+            direction.textContent = str_direction(data.direction)
+        }
+
+        render_elevator({
+            floor: 1,
+            congestion: 0.5,
+            direction: 1,
+        })
+    </script>
+</body>
+</html>
+
