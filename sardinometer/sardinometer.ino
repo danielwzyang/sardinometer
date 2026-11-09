@@ -6,8 +6,8 @@
 
 Adafruit_BMP5xx barometer;
 
-SparkFun_VL53L5CX tof;
-VL53L5CX_ResultsData tofData;
+SparkFun_VL53L5CX tof; // Address: 0x29
+VL53L5CX_ResultsData tofData; // Address: 0x47
 
 void setup() {
   Serial.begin(115200);
@@ -24,7 +24,6 @@ void setup() {
 
   Serial.println("ToF setup complete");
 
-  // BMP5XX_ALTERNATIVE_ADDRESS also exists? idk
   if (!barometer.begin(BMP5XX_DEFAULT_ADDRESS, &Wire)) {
     Serial.println("Barometer not found");
     while (1) ;
@@ -35,8 +34,10 @@ void loop() {
   barometer.performReading();
   //substitue pressure reading with altitude since barometer already calculates it internally.
   //float pressure = barometer.pressure; // unit is hPa
+  //Serial.printf("pressure = %.2f hPa\n", pressure);
+
   float altitude = barometer.altitude;
   Serial.printf("altitude = %.f meters\n", altitude);
-  //Serial.printf("pressure = %.2f hPa\n", pressure);
+  
   delay(1000);
 }
