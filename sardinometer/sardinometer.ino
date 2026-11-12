@@ -4,10 +4,10 @@
 #include <SparkFun_VL53L5CX_Library.h>
 // https://github.com/sparkfun/SparkFun_VL53L5CX_Arduino_Library/blob/main/examples/Example1_DistanceArray/Example1_DistanceArray.ino
 
-Adafruit_BMP5xx barometer;
+Adafruit_BMP5xx barometer; // Address: 0x29
 
-SparkFun_VL53L5CX tof; // Address: 0x29
-VL53L5CX_ResultsData tofData; // Address: 0x47
+SparkFun_VL53L5CX tof; // Address: 0x47
+VL53L5CX_ResultsData tofData;
 
 void setup() {
   Serial.begin(115200);
@@ -32,9 +32,9 @@ void setup() {
 
 void loop() {
   barometer.performReading();
-  //substitue pressure reading with altitude since barometer already calculates it internally.
-  //float pressure = barometer.pressure; // unit is hPa
-  //Serial.printf("pressure = %.2f hPa\n", pressure);
+  // substitute pressure reading with altitude since barometer already calculates it internally.
+  // float pressure = barometer.pressure; // unit is hPa
+  // Serial.printf("pressure = %.2f hPa\n", pressure);
 
   float altitude = barometer.altitude;
   Serial.printf("altitude = %.f meters\n", altitude);
