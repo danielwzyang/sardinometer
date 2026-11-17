@@ -48,7 +48,7 @@ void loop() {
     Serial.print("["); 
     for (int i = 0; i < 64; i++) {
       Serial.print(tofData.distance_mm[i]);
-      Serial.print(",");
+      if (i != 63) Serial.print(",");
     }
     Serial.println("]");
   }
