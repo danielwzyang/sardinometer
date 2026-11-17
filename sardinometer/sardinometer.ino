@@ -4,15 +4,15 @@
 #include <SparkFun_VL53L5CX_Library.h>
 // https://github.com/sparkfun/SparkFun_VL53L5CX_Arduino_Library/blob/main/examples/Example1_DistanceArray/Example1_DistanceArray.ino
 
-Adafruit_BMP5xx barometer; // Address: 0x29
+Adafruit_BMP5xx barometer; // Address: 0x47
 
-SparkFun_VL53L5CX tof; // Address: 0x47
+SparkFun_VL53L5CX tof; // Address: 0x29
 VL53L5CX_ResultsData tofData;
 
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Wire.begin(); // starts I2C bus with default pins
+  Wire.begin(8, 9); // starts I2C bus
 
   Serial.println("Initializing ToF (up to 10s)");
   if (!tof.begin()) {
@@ -21,16 +21,20 @@ void setup() {
   }
 
   tof.setResolution(64);
+  tof.startRanging();
 
   Serial.println("ToF setup complete");
 
+  /*
   if (!barometer.begin(BMP5XX_DEFAULT_ADDRESS, &Wire)) {
     Serial.println("Barometer not found");
     while (1) ;
   }
+  */
 }
 
 void loop() {
+  /*
   barometer.performReading();
   // substitute pressure reading with altitude since barometer already calculates it internally.
   // float pressure = barometer.pressure; // unit is hPa
@@ -38,6 +42,16 @@ void loop() {
 
   float altitude = barometer.altitude;
   Serial.printf("altitude = %.f meters\n", altitude);
+  */
+
+  if (tof.isDataReady() && tof.getRangingData(&tofData) ) {
+    Serial.print("["); 
+    for (int i = 0; i < 64; i++) {
+      Serial.print(tofData.distance_mm[i]);
+      Serial.print(",");
+    }
+    Serial.println("]");
+  }
   
   delay(1000);
 }
