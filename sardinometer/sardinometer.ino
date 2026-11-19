@@ -42,7 +42,8 @@ void setup() {
 float getAltitude() {
   barometer.performReading();
   // sea level altitude = 1013.25 Pa
-  return barometer.readAltitude(1013.25);
+  static float base_pressure = barometer.pressure;
+  return barometer.readAltitude(base_pressure);
 }
 
 bool getTOFData() {
