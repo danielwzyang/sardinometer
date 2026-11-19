@@ -27,7 +27,7 @@ void setup() {
 
   Serial.println("ToF setup complete");
 
-  if (!barometer.begin(BMP5XX_DEFAULT_ADDRESS, &Wire)) {
+  if (!barometer.begin(BMP5XX_ALTERNATIVE_ADDRESS, &Wire)) {
     Serial.println("Barometer not found");
     while (1) ;
   }
