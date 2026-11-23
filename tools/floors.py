@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 
 log = "measurements/112326_service.log"
-flat_width = 5
+flat_compare = 5 # which neighbor +/- n samples away to compare to
+flat_width = 15 # how many flat readings constitute a floor
 error_margin = 0.2
 
 alt = []
@@ -10,14 +11,14 @@ for line in open(log):
         alt.append(float(line.split()[2]))
 
 floors = []
-for i in range(len(alt) - flat_width):
-    if abs(alt[i + flat_width] - alt[i]) < error_margin:
+for i in range(len(alt) - flat_compare):
+    if abs(alt[i + flat_compare] - alt[i]) < error_margin:
         if floors and abs(alt[i] - floors[-1][-1]) < 1:
             floors[-1].append(alt[i])
         else:
             floors.append([alt[i]])
 
-floors = [sum(f) / len(f) for f in floors]
+floors = [sum(f) / len(f) for f in floors if len(f) > flat_width]
 zero = floors[0]
 floors = [f - zero for f in floors]
 alt = [a - zero for a in alt]
