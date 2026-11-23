@@ -10,14 +10,14 @@ for line in open(log):
         alt.append(float(line.split()[2]))
 
 floors = []
-for i in range(len(alt) - 5):
-    if abs(alt[i + 5] - alt[i]) < 0.2:
+for i in range(len(alt) - flat_width):
+    if abs(alt[i + flat_width] - alt[i]) < 0.2:
         if floors and abs(alt[i] - floors[-1][-1]) < 1:
             floors[-1].append(alt[i])
         else:
             floors.append([alt[i]])
 
-floors = [sum(f) / len(f) for f in floors if len(f) > 15]
+floors = [sum(f) / len(f) for f in floors]
 zero = floors[0]
 floors = [f - zero for f in floors]
 alt = [a - zero for a in alt]
