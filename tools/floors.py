@@ -11,7 +11,7 @@ for line in open(log):
 
 floors = []
 for i in range(len(alt) - flat_width):
-    if abs(alt[i + flat_width] - alt[i]) < 0.2:
+    if abs(alt[i + flat_width] - alt[i]) < error_margin:
         if floors and abs(alt[i] - floors[-1][-1]) < 1:
             floors[-1].append(alt[i])
         else:
