@@ -5,7 +5,8 @@
 
 Adafruit_BMP5xx barometer;
 
-float heights[FLOORS] = {0, 5, 9, 13, 16, 20, 24, 28, 33, 37, 41};
+// LL1 not stopped at so it's a guess at midway
+float heights[FLOORS] = {0.00, 4.05, 8.11, 11.95, 14.99, 18.95, 23.28, 27.08, 31.40, 35.48, 39.70}
 int floor_numbers[FLOORS] = {-2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 SparkFun_VL53L5CX tof;
