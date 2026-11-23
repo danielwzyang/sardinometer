@@ -46,6 +46,21 @@ float getAltitude() {
   return barometer.readAltitude(base_pressure);
 }
 
+int getFloor(int altitude) {
+  int min_dist = 1000;
+  int floor = UNDEFINED_FLOOR;
+
+  for (int i = 0; i < FLOORS; i++) {
+    int dist = abs(heights[i] - altitude);
+    if (dist < min_dist) {
+      min_dist = dist;
+      floor = floor_numbers[i];
+    }
+  }
+
+  return floor;
+}
+
 bool getTOFData() {
   return tof.isDataReady() && tof.getRangingData(&tofData);
 }
@@ -67,6 +82,8 @@ void loop() {
     prev_millis_bmp += BMP_MS;
     float altitude = getAltitude();
     Serial.printf("altitude = %.f meters\n", altitude);
+    int floor = getFloor(altitude);
+    Serial.printf("floor = %.f\n", floor);
   }
 
   if (cur_millis - prev_millis_tof >= TOF_MS && getTOFData()) {

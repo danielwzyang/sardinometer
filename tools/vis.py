@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import serial
 
-port = "/dev/ttyACM0"
+port = "/dev/"
 rate = 115200
 res = (8, 8)
 max_dist = 2000
