@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sardinometer control panel</title>
+</head>
+
+<body>
+    <main>
+        password 
+        <input type="password" id="password">
+        <button onclick="unlock()">unlock</button>
+        <span id="message"></span>
+
+        <br>
+
+        <div id="panel" hidden>
+            floor
+            <select id="floor">
+                <option value="-2">LL2</option>
+                <option value="-1">LL1</option>
+                <option value="1">G</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+            </select>
+
+            <br><br>
+
+            direction
+            <select id="direction">
+                <option value="1">up</option>
+                <option value="0">not moving</option>
+                <option value="-1">down</option>
+            </select>
+
+            <br><br>
+
+            grid
+            <div id="grid"></div>
+
+            <br>
+
+            <button onclick="send()">send</button>
+            <button onclick="call()">refresh</button>
+
+            <pre id="log"></pre>
+        </div>
+    </main>
+    
+    <script>
+        const get = (id) => document.getElementById(id)
+
+        const grid = get("grid")
+        for (let i = 0; i < 8; i++)
+            grid.innerHTML += '<input type="checkbox">'.repeat(8) + "<br>"
+        
+        async function call(data) {
+            const response = await fetch("/api/patch", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "x-password": get("password").value,
+                },
+                body: JSON.stringify({ data }),
+            })
+
+            get("log").textContent = response.status + "\n" + (await response.text())
+
+            return response.status
+        }
+
+        async function unlock() {
+            const status = await call();
+            get("panel").hidden = status != 200
+            get("message").textContent = status
+        }
+
+        function send() {
+            const zones = [...grid.querySelectorAll("input")].map((e) => e.checked);
+            const filled = zones.filter((e) => e).length
+            
+            call({
+                floor: Number(get("floor").value),
+                direction: Number(get("direction").value),
+                grid: zones,
+                congestion: Math.round((filled / 64) * 100),
+            })
+        }
+    </script>
+</body>
+</html>
+
