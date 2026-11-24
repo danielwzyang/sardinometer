@@ -3,20 +3,20 @@ export default async function handler(req, res) {
     if (!password || req.headers["x-password"] != password)
         return res.status(401).end();
 
-    const values = req.body?.values
+    const data = req.body?.data
 
     const key = process.env.SUPABASE_KEY
     const url = process.env.SUPABASE_URL + "/rest/v1/elevator_status?id=eq.1"
 
     const response = await fetch(url, {
-        method: values ? "PATCH" : "GET",
+        method: data ? "PATCH" : "GET",
         headers: {
             apikey: key,
             Authorization: "Bearer " + key,
             "Content-Type": "application/json",
             Prefer: "return=representation",
         },
-        body: values ? JSON.stringify(values) : undefined,
+        body: data ? JSON.stringify(data) : undefined,
     })
     
     res.status(response.status).send(JSON.stringify(await response.json(), null, 2))
