@@ -15,3 +15,9 @@ upload:
 monitor:
 	arduino-cli monitor -p $(PORT) -c baudrate=$(RATE)
 
+vis:
+	python3 tools/vis.py
+
+floors:
+	python3 tools/floors.py
+
