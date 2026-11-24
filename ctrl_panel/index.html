@@ -71,7 +71,9 @@
                 body: JSON.stringify({ data }),
             })
 
-            get("log").textContent = response.status + "\n" + (await response.text())
+            get("log").textContent = (new Date()).toLocaleTimeString("en-US") + "\n" +
+                response.status + "\n" + 
+                (await response.text())
 
             return response.status
         }

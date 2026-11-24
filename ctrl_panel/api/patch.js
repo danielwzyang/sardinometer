@@ -18,6 +18,6 @@ export default async function handler(req, res) {
         },
         body: values ? JSON.stringify(values) : undefined,
     })
-
-    res.status(response.status).send(await response.text())
+    
+    res.status(response.status).send(JSON.stringify(await response.json(), null, 2))
 }
