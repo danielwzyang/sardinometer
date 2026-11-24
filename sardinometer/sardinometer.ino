@@ -1,13 +1,9 @@
-#include <Wire.h> // I2C lib
-#include <Adafruit_BMP5xx.h> // barometer lib
-#include <SparkFun_VL53L5CX_Library.h> // tof lib
+#include <Wire.h>
+#include <Adafruit_BMP5xx.h>
+#include <SparkFun_VL53L5CX_Library.h>
 #include <config.h>
 
 Adafruit_BMP5xx barometer;
-
-// LL1 not stopped at so it's a guess at midway
-float heights[FLOORS] = {0.00, 4.05, 8.11, 11.95, 14.99, 18.95, 23.28, 27.08, 31.40, 35.48, 39.70}
-int floor_numbers[FLOORS] = {-2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 SparkFun_VL53L5CX tof;
 VL53L5CX_ResultsData tofData;
@@ -15,9 +11,13 @@ VL53L5CX_ResultsData tofData;
 unsigned long prev_millis_bmp = 0;
 unsigned long prev_millis_tof = 0;
 
+// LL1 not stopped at so it's a guess at midway
+float heights[FLOORS] = {0.00, 4.05, 8.11, 11.95, 14.99, 18.95, 23.28, 27.08, 31.40, 35.48, 39.70}
+int floor_numbers[FLOORS] = {-2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
 void setup() {
   Serial.begin(115200);
-  Wire.begin(SDA_PIN, SCL_PIN); // starts I2C bus
+  Wire.begin(SDA_PIN, SCL_PIN);
 
   Serial.println("Initializing ToF (up to 10s)");
   if (!tof.begin()) {
@@ -36,8 +36,10 @@ void setup() {
     while (1) ;
   }
 
-  barometer.setTemperatureOversampling(BMP5XX_OVERSAMPLING_1X); // reduce overhead since we don't need temp
-  barometer.setPressureOversampling(BMP5XX_OVERSAMPLING_8X); // average 8 consecutive samples to reduce noise
+  // reduce overhead since we don't need temp
+  barometer.setTemperatureOversampling(BMP5XX_OVERSAMPLING_1X);
+  // average 8 consecutive samples to reduce noise
+  barometer.setPressureOversampling(BMP5XX_OVERSAMPLING_8X);
 
   prev_millis_bmp = millis();
   prev_millis_tof = millis();
@@ -45,7 +47,6 @@ void setup() {
 
 float getAltitude() {
   barometer.performReading();
-  // sea level altitude = 1013.25 Pa
   static float base_pressure = barometer.pressure;
   return barometer.readAltitude(base_pressure);
 }
@@ -70,7 +71,6 @@ bool getTOFData() {
 }
 
 void printTOFData() {
-  // 1d array
   Serial.print("["); 
   for (int i = 0; i < TOF_RES; i++) {
     Serial.print(tofData.distance_mm[i]);
