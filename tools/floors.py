@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-log = "measurements/112326_service.log"
+log = "measurements/112426_local.log"
 flat_compare = 5 # which neighbor +/- n samples away to compare to
 flat_width = 15 # how many flat readings constitute a floor
 error_margin = 0.2
@@ -25,7 +25,7 @@ alt = [a - zero for a in alt]
 
 # LL1 missing in this sample
 print("{" + ", ".join(f"{f:.2f}" for f in floors) + "}")
-names = ["LL2", "G", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+names = ["LL2", "LL1", "G", "2", "3", "4", "5", "6", "7", "8", "9"]
 for name, f in zip(names, floors):
     print(name, round(f, 2))
     plt.axhline(f, color="pink")

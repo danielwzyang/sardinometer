@@ -11,8 +11,7 @@ VL53L5CX_ResultsData tofData;
 unsigned long prev_millis_bmp = 0;
 unsigned long prev_millis_tof = 0;
 
-// LL1 not stopped at so it's a guess at midway
-float heights[FLOORS] = {0.00, 4.05, 8.11, 11.95, 14.99, 18.95, 23.28, 27.08, 31.40, 35.48, 39.70}
+float heights[FLOORS] = {0.00, 4.10, 8.87, 12.54, 15.44, 19.92, 24.32, 28.66, 32.48, 36.57, 41.00};
 int floor_numbers[FLOORS] = {-2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 void setup() {
